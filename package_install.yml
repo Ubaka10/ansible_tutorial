@@ -6,7 +6,20 @@
   become_method: sudo
 
   tasks:
+    - name: Update repository Index
+      apt: 
+        update_cache: yes 
+     
     - name: Install nginx
       apt:
         name: nginx
         state: present
+
+    - name: Install apache2
+      apt:
+        name: apache2
+        state: present
+  
+    - name: add php support for apache
+      apt: 
+        name: libapache2-mod-php 
