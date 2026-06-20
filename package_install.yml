@@ -9,17 +9,20 @@
     - name: Update repository Index
       apt: 
         update_cache: yes 
+      when: ansible_distribution == "Ubuntu"
      
     - name: Install nginx
       apt:
         name: nginx
         state: present
+      when: ansible_distribution == "Ubuntu"
 
     - name: Install apache2
       apt:
         name: apache2
         state: present
-  
+      when: ansible_distribution == "Ubuntu"
+
     - name: add php support for apache
       apt: 
         name: libapache2-mod-php 
