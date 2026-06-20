@@ -1,0 +1,12 @@
+---
+- name: Install a package
+  hosts: all
+  become: true
+  become_user: root
+  become_method: sudo
+
+  tasks:
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
