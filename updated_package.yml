@@ -1,20 +1,58 @@
 ---
-- name: Install a package
+- name: Update packages on server
   hosts: all
   become: true
-  become_user: root
-  become_method: sudo
+  pre_tasks:
 
+  - name: Update and Upgrade linx distro
+    apt:
+      update_cache: yes
+      upgrade: dist
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Update Update and Upgrade Centos distro
+    dnf:
+      update_cache: yes
+      update_only: yes
+    when: ansible_distribution == "CentOS"
+
+
+- hosts: web_server
+  become: true
   tasks:
-    - name: Update repository Index
-      apt: 
-        update_cache: yes 
-      when: ansible_distribution_version == "Ubuntu"
 
-    - name: install apache2 and php packages for Unbuntu
-      apt:
-        name:
-          - apache2
-          - libapache2-mod-php
-        state: latest
-      when: ansible_distribution == "Ubuntu"
+  - name: Install apache2 and php extension on web server
+    apt:
+      name:
+        - apache2
+        - libapache2-mod-php
+      state: latest
+    when: ansible_distribution == "Ubuntu"
+
+  - name: install apache and php for Centos servers
+    dnf:
+      name:
+        - httpd
+        - php
+      state: latest
+    when: ansible_distribution == "CentOS"
+
+
+- hosts: db_server
+  become: true
+  tasks:
+
+  - name: Install mariadb package(CentOS)
+    dnf:
+      name:
+        - mariadb
+      state: latest
+    when: ansible_distribution == "CentOS"
+
+
+  - name: Install mariadb package(Ubuntu)
+    apt:
+      name:
+        - mariadb-server
+      state: latest
+    when: ansible_distribution == "Ubuntu"

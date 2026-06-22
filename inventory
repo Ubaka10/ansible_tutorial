@@ -1,1 +1,5 @@
-13.51.206.255 ansible_ssh_user=ubuntu
+[web_server]
+16.192.93.14 ansible_ssh_user=ubuntu
+
+[db_server]
+172.20.10.4 ansible_ssh_user=ebuka
