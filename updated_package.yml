@@ -1,0 +1,20 @@
+---
+- name: Install a package
+  hosts: all
+  become: true
+  become_user: root
+  become_method: sudo
+
+  tasks:
+    - name: Update repository Index
+      apt: 
+        update_cache: yes 
+      when: ansible_distribution_version == "Ubuntu"
+
+    - name: install apache2 and php packages for Unbuntu
+      apt:
+        name:
+          - apache2
+          - libapache2-mod-php
+        state: latest
+      when: ansible_distribution == "Ubuntu"
